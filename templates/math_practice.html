@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Practice</title>
+    <!-- Link to Google Fonts for Roboto -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            background-image: url("static/images/background.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            font-family: 'Roboto', Arial, sans-serif; /* Apply Roboto font */
+            text-align: center;
+            margin: 150px;
+        }
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 100px;
+            height: auto;
+        }
+        
+        .container {
+        margin: auto;
+        display: inline-block;
+        background: rgba(0, 0, 0, 0.7); /* Darker background */
+        text-align: center;
+        font-size: 25px;
+        border: 1px solid #ddd;
+        padding: 35px;
+        border-radius: 15px;
+        border-color: rgb(255, 255, 255);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
+
+        input[type="text"] {
+            margin: auto;
+            width: 75px;
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 5px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.4);
+            font-size: 24px;
+        }
+        .button {
+            display: inline-block;
+            padding: 7px 15px;
+            font-size: 0.5em; /* Smaller text */
+            font-weight: bold;
+            text-transform: uppercase; /* All caps */
+            letter-spacing: 1px;
+            border: 2px solid transparent;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: transparent;
+        }
+        .button-submit {
+            color: rgba(9, 219, 9, 0.7); /* Light green */
+            border-color: rgba(9, 219, 9, 0.7);
+            margin-top: 20px;
+        }
+        .button-submit:hover {
+            background: rgba(9, 219, 9, 0.2);
+        }
+        .button-quit {
+            color: rgba(170, 1, 1, 0.7); /* Light red */
+            border-color: rgba(170, 1, 1, 0.7);
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+        }
+        .button-quit:hover {
+            background: rgba(255, 0, 0, 0.2);
+        }
+        .correct {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            color: rgb(42, 230, 42);
+        }
+        .incorrect {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            color: rgb(235, 58, 58);
+        }
+        h1 {
+            color: white;
+        }
+        h2 {
+            color: white;
+            font-size: 40px;
+        }
+        p {
+            color: rgb(255, 255, 255);
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <a href="{{ url_for('math_practice') }}">
+        <img src="{{ url_for('static', filename='images/mathmatic.png') }}" alt="Mathmatic Logo" class="logo">
+    </a>
+    <div class="container">
+        <h1>MATH PRACTICE!</h1>
+        <p>SOLVE THIS PROBLEM:</p>
+        <h2>{{ problem }}</h2>
+        <form method="POST">
+            <input type="text" name="answer" placeholder="Your Answer" autofocus>
+            <br>
+            <button type="submit" name="action" value="submit" class="button button-submit">Submit</button>
+        </form>
+        <p class="{{ message_class }}">{{ message }}</p>
+        {% if previous_question %}
+            <p><strong>Previous Question:</strong> {{ previous_question }}</p>
+            <p><strong>Correct Answer:</strong> {{ correct_answer }}</p>
+        {% endif %}
+        <form method="POST">
+            <button type="submit" name="action" value="quit" class="button button-quit">Quit</button>
+        </form>
+    </div>
+</body>
+</html>

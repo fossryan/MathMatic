@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goodbye</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-image: url("static/images/background.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            font-family: 'Roboto', Arial, sans-serif; /* Apply Roboto font */
+            text-align: center;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 100px;
+            height: auto;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.6); /* Darker background */
+            text-align: center;
+            font-size: 25px;
+            border: 1px solid #ddd;
+            padding: 35px;
+            border-radius: 15px;
+            border-color: rgb(255, 255, 255);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            color: white; /* Make text white */
+            position: relative;
+            width: 50%; /* Center the container */
+            max-width: 600px;
+        }
+
+        h1, p, strong {
+            color: white; /* Make all text white */
+        }
+
+        .chart-container {
+            width: 40%; /* Reduce the chart to half its size */
+            margin: 20px auto;
+        }
+
+        .percentage-correct {
+            font-size: 40pt;
+            color: rgb(5, 206, 5); /* Green text for percentage */
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <a href="{{ url_for('math_practice') }}">
+        <img src="{{ url_for('static', filename='images/mathmatic.png') }}" alt="Mathmatic Logo" class="logo">
+    </a>
+    <div class="container">
+        <h1>GREAT JOB!</h1>
+        <p>Thank you for practicing math! Here are your results:</p>
+        
+        <div class="percentage-correct" id="percentageCorrect"></div>
+
+        <div class="chart-container">
+            <canvas id="resultsChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const correctCount = parseInt("{{ correct_count }}", 10) || 0;
+        const incorrectCount = parseInt("{{ incorrect_count }}", 10) || 0;
+        const totalAnswers = correctCount + incorrectCount;
+    
+        // Calculate percentage (rounded to the nearest integer)
+        const correctPercentage = Math.round((correctCount / totalAnswers) * 100);
+    
+        // Update percentage display above the chart
+        document.getElementById('percentageCorrect').innerText = `${correctPercentage}% Correct`;
+    
+        const ctx = document.getElementById('resultsChart').getContext('2d');
+        const resultsChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Correct', 'Incorrect'],
+                datasets: [{
+                    data: [correctCount, incorrectCount],
+                    backgroundColor: ['green', 'red'],
+                    borderColor: ['darkgreen', 'darkred'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white', /* White text for legend */
+                            font: {
+                                size: 16
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+    
+</body>
+</html>
